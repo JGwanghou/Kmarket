@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/productLayout}">
+	<th:block layout:fragment="content">  
+            <section class="list">
+                <nav>
+                    <h1>상품목록</h1>
+                    <p>
+                        HOME > 
+                        <span>패션·의류·뷰티</span>
+                         > 
+                        <strong>남성의류</strong>
+                    </p>
+                </nav>
+                <ul class="sort">
+                    <li>
+                        <a th:href="@{/product/list (prodCate1=${prodCate1}, prodCate2=${prodCate2}, sort='sold')}" th:classappend="${sort} == 'sold' ? 'on'">판매많은순</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/list (prodCate1=${prodCate1}, prodCate2=${prodCate2}, sort='lowPrice')}" th:classappend="${sort} == 'lowPrice' ? 'on'">낮은가격순</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/list (prodCate1=${prodCate1}, prodCate2=${prodCate2}, sort='highPrice')}" th:classappend="${sort} == 'highPrice' ? 'on'">높은가격순</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/list (prodCate1=${prodCate1}, prodCate2=${prodCate2}, sort='score')}" th:classappend="${sort} == 'score' ? 'on'">평점높은순</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/list (prodCate1=${prodCate1}, prodCate2=${prodCate2}, sort='review')}" th:classappend="${sort} == 'review' ? 'on'">후기많은순</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/list (prodCate1=${prodCate1}, prodCate2=${prodCate2}, sort='date')}" th:classappend="${sort} == 'date' ? 'on'">최근등록순</a>
+                    </li>
+                </ul>
+                <table>
+                    <tr th:each="prod:${prods}">
+                        <td><a href="#" class="thumb">
+                            <img th:src="@{/prodImg/__${prod.prodCate1}__/__${prod.prodCate2}__/__${prod.thumb2}__}" alt="상품이미지">
+                        </a></td>
+                        <td>
+                            <h3 class="name">[[${prod.prodName}]]</h3>
+                            <a href="#" class="desc">[[${prod.descript}]]</a>
+                        </td>
+                        <td>
+                            <ul>
+                                <li><ins class="dis-price">[[${#numbers.formatInteger(prod.sellPrice, 0, 'COMMA')}]]</ins></li>
+                                <li th:if="${prod.discount != 0}">
+                                    <del class="org-price">[[${#numbers.formatInteger(prod.price, 0, 'COMMA')}]]</del>
+                                    <span class="discount">[[${prod.discount + '%'}]]</span>
+                                </li>
+                                <th:block th:if="${prod.delivery == 0}">
+                                <li><span class="free-delivery">무료배송</span></li>
+                                </th:block>
+                                <th:block th:if="${prod.delivery != 0}">
+                                <li><span>[[${#numbers.formatInteger(prod.delivery, 0, 'COMMA') + "원"}]]</span></li>
+                                </th:block>
+                            </ul>
+                        </td>
+                        <td>
+                            <h4 class="seller"><i class="fas fa-home" aria-hidden="true"></i> [[${prod.company}]]
+                            </h4>
+                            <h5 class="badge power">판매자등급</h5>
+                            <h6 th:class="${'rating star' + prod.score}">상품평</h6>
+                        </td>
+                    </tr>
+                </table>
+                <div class="paging">
+                    <span class="prev">
+                        <a th:href="@{/product/list (pg=${groups[0]-1}, prodCate1=${prodCate1}, prodCate2=${prodCate2})}" th:if="${groups[0] > 1}">이전</a>
+                    </span>
+                    <span class="num">
+                        <a th:href="@{/product/list (pg=${num}, prodCate1=${prodCate1}, prodCate2=${prodCate2})}" th:classappend="${num == currentPage} ? 'on'" th:each="num:${#numbers.sequence(groups[0],groups[1])}">[[${num}]]</a>
+                    </span>
+                    <span class="next">
+                        <a th:href="@{/product/list (pg=${groups[0]+1}, prodCate1=${prodCate1}, prodCate2=${prodCate2})}" th:if="${groups[1] < lastPage}">다음 ></a>
+                    </span>
+                </div>
+            </section>
+	</th:block>
+</html>

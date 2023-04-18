@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layouts/myLayout}">
+	<th:block layout:fragment="content">
+                <section>
+                    <a href="#"><img th:src="@{/img/my/my_banner2.png}" alt="패션, 타운 하나로 끝" class="banner"></a>
+                    <article>
+                        <h3>회원정보 설정</h3>
+
+                        <table border="0">
+                            <tr>
+                                <td>사용자 ID</td>
+                                <td>[[${#authentication.principal.user.uid}]]</td>
+                            </tr>
+                            <tr>
+                                <td>비밀번호</td>
+                                <td>
+                                    <button id="btnChangePass">비밀번호 수정</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>이름</td>
+                                <td th:if="${#authentication.principal.user.level} == '1'">[[${#authentication.principal.user.name}]]</td>
+                                <td th:if="${#authentication.principal.user.level} == '5'">[[${#authentication.principal.user.manager}]]</td>
+                                <td th:if="${#authentication.principal.user.level} == '7'">[[${#authentication.principal.user.manager}]]</td>
+                            </tr>
+                            <tr>
+                                <td>E-mail</td>
+                                <td>
+                                    <input type="text" name="email1" readonly="readonly" th:value="${#authentication.principal.user.email}"> @
+                                    <input type="text" name="email2" readonly="readonly" value="naver.com">
+                                    <select class="email">
+                                        <option>직접입력</option>
+                                        <option>naver.com</option>
+                                        <option>daum.net</option>
+                                        <option>gmail.com</option>
+                                        <option>nate.com</option>
+                                        <option>outlook.com</option>
+                                    </select>
+                                    <button id="btnChangeEmail">수정하기</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>휴대폰</td>
+                                <td>
+                                    <p class="hp">
+                                        <input type="text" name="hp1" th:value="${#authentication.principal.user.tel}"/>-
+                                        <input type="text" name="hp2"/>-
+                                        <input type="text" name="hp3"/>
+                                        <button id="btnChangeHp">수정하기</button>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>주소</td>
+                                <td>
+                                    <input type="text" name="zip" />
+                                    <button id="btnFindZip">주소검색</button>
+                                    <p class="address">
+                                        <input type="text" name="addr1"/>
+                                        <input type="text" name="addr2"/>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>회원탈퇴</td>
+                                <td>
+                                    <button id="btnWithdraw">탈퇴하기</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <button id="btnInfoChange">수정하기</button>
+                    </article>
+                </section>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script>
+			// 
+			let btnChangeEmail = false;
+			let btnChangeHp = false;
+		
+			$(function(){
+				let hp = $('input[name=hp1]').val();
+				$('input[name=hp1]').attr('value', hp.substring(0, hp.indexOf('-')));
+				hp = hp.substring(hp.indexOf('-')+1);
+				$('input[name=hp2]').attr('value', hp.substring(0, hp.indexOf('-')));
+				hp = hp.substring(hp.indexOf('-')+1);
+				$('input[name=hp3]').attr('value', hp.substring(hp.indexOf('-')+1));
+				
+				let email = $('input[name=email1]').val();
+				$('input[name=email1]').attr('value', email.substring(0, email.indexOf('@')));
+				$('input[name=email2]').attr('value', email.substring(email.indexOf('@')+1));
+				
+				$('#btnChangeEmail').click(function(){
+					btnChangeEmail = true;
+					
+					$('input[name=email1]').prop('readonly', false);
+					$('input[name=email2]').prop('readonly', false);
+					
+					if(btnChangeEmail){
+						$('.email').change(function(){
+							$('input[name=email2]').val($(this).val());
+						});							
+					}
+				});
+				
+				
+				$('#btnChangeEmail').click(function(){
+					
+				});
+			});
+		</script>
+	</th:block>
+</html>

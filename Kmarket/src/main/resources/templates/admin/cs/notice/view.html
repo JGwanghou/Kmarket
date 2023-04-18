@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminLayout}">
+<th:block layout:fragment="content">
+    <section id="cs-view" class="admin">
+        <nav>
+            <h1>공지사항 보기</h1>
+            <p>HOME > 고객센터 > <span>공지사항</span></p>
+        </nav>
+
+        <table>
+            <tr>
+                <td>유형</td>
+                <td class="type">[[${cvo.cateType1}]]</td>
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td class="title">[[${cvo.title}]]</td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td class="content">
+                    <p>
+                        [[${cvo.content}]]
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <a href="#" class="btnList">취소</a>
+            <a th:href="|@{/}admin/cs/modify/notice/${cvo.no}|" class="btnModify">수정</a>
+        </div>
+    </section>
+</th:block>

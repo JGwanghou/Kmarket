@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminLayout}">
+<th:block layout:fragment="content">
+    <section id="cs-list" class="admin">
+        <nav>
+            <h1>공지사항 목록</h1>
+            <p>HOME > 고객센터 > <span>공지사항</span></p>
+        </nav>
+        <form name="search-form">
+            <select name="cateType1">
+                <option value="none">유형선택</option>
+                <option >고객서비스</option>
+                <option >안전거래</option>
+                <option >위해상품</option>
+                <option >이벤트당첨</option>
+            </select>
+            <input type="submit" value="검색">
+        </form>
+
+
+        <table>
+            <tr>
+                <th width="30px"><input type="checkbox" name="allCheck" value="all" onclick="selectAll(this)"></th>
+                <th>번호</th>
+                <th>유형</th>
+                <th>제목</th>
+                <th>조회</th>
+                <th>날짜</th>
+                <th>관리</th>
+            </tr>
+
+            <tbody id=article>
+            <th:block th:each="article : ${articles}">
+                <tr>
+                    <td><input type="checkbox" name='check' th:value="${article.no}"></td>
+                    <td width="50px">[[${article.no}]]</td>
+                    <td width="60px">[[${article.cateType1}]]</td>
+                    <td style="text-align: left;"><a th:href="|@{/}admin/cs/view/notice/${article.no}|">[[${article.title}]]</a></td>
+                    <td width="30px">[[${article.hit}]]</td>
+                    <td width="50px">[[${article.rdate}]]</td>
+
+                    <td width="70px">
+                        <a href="#" class="CSremove1" th:data-no="${article.no}">[삭제]</a>
+                        <a th:href="|@{/}admin/cs/modify/notice/${article.no}|" class="CSmodify" th:data-no="${article.no}">[수정]</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+        <input type="button" name=del value="선택삭제" onclick="csDelete1()">
+
+        <div class="paging" th:if="${#strings.isEmpty(cateType1)}">
+            <span th:if="${groups[0]>1}" class="prev">
+                <a th:href="@{/admin/cs/list/notice(pg=${groups[0]-1})}"><&nbsp;이전</a>
+            </span>
+            <span class="num">
+                <th:block th:each="i : ${#numbers.sequence(groups[0],groups[1])}">
+                    <a th:href="@{/admin/cs/list/notice(pg=${i})}"
+                       th:classappend="${i==currentPage ? 'on': ''}"
+                    >[[${i}]]</a>
+                </th:block>
+            </span>
+            <span th:if="${groups[1]<lastPage}" class="next">
+                <a th:href="@{/admin/cs/list/notice(pg=${groups[1]+1})}">다음&nbsp;></a>
+            </span>
+        </div>
+
+        <div class="paging" th:if="${not #strings.isEmpty(cateType1)}">
+            <span th:if="${groups[0]>1}" class="prev">
+                <a th:href="@{/admin/cs/list/notice(pg=${groups[0]-1}, cateType1=${cateType1})}"><&nbsp;이전</a>
+            </span>
+            <span class="num">
+                <th:block th:each="i : ${#numbers.sequence(groups[0],groups[1])}">
+                    <a th:href="@{/admin/cs/list/notice(pg=${i},cateType1=${cateType1})}"
+                       th:classappend="${i==currentPage ? 'on': ''}"
+                    >[[${i}]]</a>
+                </th:block>
+            </span>
+            <span th:if="${groups[1]<lastPage}" class="next">
+                <a th:href="@{/admin/cs/list/notice(pg=${groups[1]+1},cateType1=${cateType1})}">다음&nbsp;></a>
+            </span>
+        </div>
+
+        <a th:href="@{/admin/cs/noticeWrite}" class="btnWrite">작성하기</a>
+    </section>
+</th:block>

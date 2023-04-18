@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.dao.ProductDAO">
+	<!-- index -->
+	<select id="selectIndex" resultType="kr.co.kmarket.vo.ProductVO">
+		(SELECT  'sold' AS `type`, a.* FROM `km_product` a ORDER BY `sold` DESC LIMIT 5)
+		UNION
+		(SELECT  'hit' AS `type`, a.* FROM `km_product` a ORDER BY `hit` DESC LIMIT 8)
+		UNION
+		(SELECT  'score' AS `type`, a.* FROM `km_product` a ORDER BY `score` DESC LIMIT 8)
+		UNION
+		(SELECT  'new' AS `type`, a.* FROM `km_product` a ORDER BY `rdate` DESC LIMIT 8)
+		UNION
+		(SELECT  'discount' AS `type`, a.* FROM `km_product` a ORDER BY `discount` DESC LIMIT 8)
+	</select>
+	
+	<!-- category -->
+	<select id="selectCate" resultType="kr.co.kmarket.vo.CateVO">
+		SELECT * FROM `km_product_cate2`;
+	</select>
+
+	<!-- 해당 상품 -->
+	<select id="selectProduct" resultType="kr.co.kmarket.vo.ProductVO">
+		SELECT * FROM `km_product` WHERE `prodNo`=#{prodNo};
+	</select>
+	
+	<!-- 카테고리별 상품 목록1 -->
+	<select id="selectProducts" resultType="kr.co.kmarket.vo.ProductVO" parameterType="map">
+		SELECT * FROM `km_product` WHERE `prodCate1`=#{prodCate1} AND `prodCate2`=#{prodCate2}
+		<choose>
+			<when test="sort == 'sold'"> ORDER BY `sold` DESC </when>
+			<when test="sort == 'lowPrice'"> ORDER BY `price` ASC </when>
+			<when test="sort == 'highPrice'"> ORDER BY `price` DESC </when>
+			<when test="sort == 'score'"> ORDER BY `score` DESC </when>
+			<when test="sort == 'review'"> ORDER BY `review` DESC </when>
+			<when test="sort == 'date'"> ORDER BY `rdate` DESC </when>
+		</choose>
+		LIMIT #{start}, 10;
+	</select>
+	
+	<!-- 장바구니 등록 -->
+	<insert id="insertCart">
+		INSERT INTO `km_product_cart` SET
+			`uid`=#{seller},
+			`prodNo`=#{prodNo},
+			`count`=#{count},
+			`price`=#{price},
+			`discount`=#{discount},
+			`point`=#{point},
+			`delivery`=#{delivery},
+			`total`=#{total},
+			`rdate`=NOW();
+	</insert>
+	
+	<!-- 장바구니 목록 -->
+	<select id="selectCarts" resultType="kr.co.kmarket.vo.ProductVO">
+		SELECT a.*, b.`prodCate1`, b.`prodCate2`,b.`thumb2`, b.`prodName`, b.`descript` FROM `km_product_cart` AS a JOIN
+		`km_product` AS b ON a.`prodNo` = b.`prodNo`
+		WHERE `uid`=#{uid};
+	</select>
+	
+	<!-- 장바구니 선택 삭제 -->
+	<delete id="deleteCart">
+		DELETE FROM `km_product_cart`
+		WHERE `uid`= #{uid} AND `prodNo` IN
+		<foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
+			#{checkList}
+		</foreach>
+	</delete>
+	
+	<!-- 선택 상품 주문 목록 -->
+	<select id="selectCartOrder" resultType="kr.co.kmarket.vo.ProductVO">
+		SELECT a.*, b.`prodCate1`, b.`prodCate2`,b.`thumb2`, b.`prodName`, b.`descript` FROM `km_product_cart` AS a JOIN
+		`km_product` AS b ON a.`prodNo` = b.`prodNo`
+		WHERE `uid`=#{uid} AND a.`prodNo` IN
+		<foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
+			#{checkList}
+		</foreach>
+	</select>
+	
+	<!-- 장바구니 전체 선택 가격 -->
+	<select id="selectCartTotal" resultType="kr.co.kmarket.vo.ProductVO">
+		SELECT COUNT(`cartNo`) AS count, SUM(`price`) AS price, SUM(`point`) AS point, SUM(`delivery`) AS delivery, SUM(`total`) AS total FROM `km_product_cart` WHERE `uid`=#{uid};
+	</select>
+	
+	<!-- 주문하기 -->
+	<insert id="insertComplete">
+		INSERT INTO `km_product_order` SET
+			`ordNo`=#{ordNo},
+			`ordUid`=#{ordUid},
+			`ordCount`=#{ordCount},
+			`ordPrice`=#{ordPrice},
+			`ordDiscount`=#{ordDiscount},
+			`ordDelivery`=#{ordDelivery},
+			`savePoint`=#{savePoint},
+			`usedPoint`=#{usedPoint},
+			`ordTotPrice`=#{ordTotPrice},
+			`recipName`=#{recipName},
+			`recipHp`=#{recipHp},
+			`recipZip`=#{recipZip},
+			`recipAddr1`=#{recipAddr1},
+			`recipAddr2`=#{recipAddr2},
+			`ordPayment`=#{ordPayment},
+			`ordComplete`=1,
+			`ordDate`=NOW()
+	</insert>
+	
+	<!-- 주문 상품 입력 -->
+	<insert id="insertCompleteItem">
+		INSERT INTO `km_product_order_item` (`prodNo`, `ordNo`, `uid`, `count`, `price`, `discount`, `point`, `delivery`, `total`)
+		SELECT `prodNo`, #{ordNo}, `uid`, `count`, `price`, `discount`, `point`, `delivery`, `total` FROM `km_product_cart`
+		WHERE `uid`=#{uid} AND `prodNo` IN
+		<foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
+			#{checkList}
+		</foreach>
+	</insert>
+	
+	<!-- 포인트 입력 -->
+	<insert id="insertCompletePoint">
+		INSERT INTO `km_member_point` SET
+			`uid`=#{uid},
+			`ordNo`=#{ordNo},
+			`point`=#{point},
+			`pointDate`=NOW();
+	</insert>
+	
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteCompleteCart">
+		DELETE FROM `km_product_cart` WHERE `uid`=#{uid} AND `prodNO` IN
+		<foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
+			#{checkList}
+		</foreach>
+	</delete>
+	
+	<!-- 검색 -->
+	<select id="searchProduct" resultType="kr.co.kmarket.vo.ProductVO">
+		SELECT * FROM `km_product` WHERE `prodName` LIKE CONCAT('%', #{keyWord}, '%')
+		<include refid="sort"/>
+	</select>
+	
+	<!-- 2차 검색 -->
+	<select id="secondSearch" resultType="kr.co.kmarket.vo.ProductVO">
+		SELECT * FROM `km_product` WHERE `prodName` LIKE CONCAT('%', #{keyWord}, '%') AND
+		<choose>
+			<when test="chk == 'prodName'">
+				`prodName` LIKE CONCAT('%', #{search}, '%')
+				<include refid="sort"/>
+			</when>
+			<when test="chk == 'descript'">
+				`descript` LIKE CONCAT('%', #{search}, '%')
+				<include refid="sort"/>
+			</when>
+			<when test="chk == 'prodPrice'">
+				`price` BETWEEN #{min} AND #{max}
+				<include refid="sort"/>
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 페이징 -->
+	<!-- 상품 개수 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(`prodNo`) FROM `km_product` WHERE `prodCate1`=#{prodCate1} AND `prodCate2`=#{prodCate2};
+	</select>
+	<!-- 검색 상품 개수 -->
+	<select id="getTotalSearchCount" resultType="int">
+		SELECT COUNT(`prodNo`) FROM `km_product` WHERE `prodName` LIKE CONCAT('%', #{keyWord}, '%')
+	</select>
+	<!-- 2차 검색 상품 개수 -->
+	<select id="getTotalSecondSearchCount" resultType="int">
+		SELECT COUNT(`prodNo`) FROM `km_product` WHERE `prodName` LIKE CONCAT('%', #{keyWord}, '%') AND
+		<choose>
+			<when test="chk == 'prodName'">
+				`prodName` LIKE CONCAT('%', #{search}, '%')
+			</when>
+			<when test="chk == 'descript'">
+				`descript` LIKE CONCAT('%', #{search}, '%')
+			</when>
+			<when test="chk == 'prodPrice'">
+				`price` BETWEEN #{min} AND #{max}
+			</when>
+		</choose>
+	</select>
+	
+	<!--========공통 키==========-->
+
+    <sql id="sort">
+        <choose>
+			<when test="sort == 'sold'"> ORDER BY `sold` DESC LIMIT #{start}, 10 ; </when>
+			<when test="sort == 'lowPrice'"> ORDER BY `price` ASC LIMIT #{start}, 10; </when>
+			<when test="sort == 'highPrice'"> ORDER BY `price` DESC LIMIT #{start}, 10; </when>
+			<when test="sort == 'score'"> ORDER BY `score` DESC LIMIT #{start}, 10; </when>
+			<when test="sort == 'review'"> ORDER BY `review` DESC LIMIT #{start}, 10; </when>
+			<when test="sort == 'date'"> ORDER BY `rdate` DESC LIMIT #{start}, 10; </when>
+		</choose>
+    </sql>
+</mapper>

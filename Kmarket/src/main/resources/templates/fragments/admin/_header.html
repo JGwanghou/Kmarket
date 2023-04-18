@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="headerFragment">
+		<header>
+		    <div>
+		        <a th:href="@{/}" class="logo">
+		            <img th:src="@{/img/admin/admin_logo.png}" alt="admin_logo">
+		        </a>
+		        <p>
+					<!-- 판매 회원 name -->
+					<th:block th:if="${#authentication.principal.user.level} == '5'">
+						<span>[[${#authentication.principal.user.company}]](판매자)님, 환영합니다.</span>
+						<a th:href="@{/member/logout}">로그아웃</a>
+						<a th:href="@{/cs}">고객센터</a>
+					</th:block>
+
+					<!-- 관리자 -->
+					<th:block th:if="${#authentication.principal.user.level} == '7'">
+						<span>관리자 님, 환영합니다.</span>
+						<a th:href="@{/member/logout}">로그아웃</a>
+						<a th:href="@{/cs}">고객센터</a>
+					</th:block>
+		        </p>
+		    </div>
+		</header>
+	</th:block>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminLayout}">
+<th:block layout:fragment="content">
+    <section id="cs-modify" class="admin">
+        <nav>
+            <h1>공지사항 수정</h1>
+            <p>HOME > 고객센터 > <span>공지사항</span></p>
+        </nav>
+
+        <form th:action="@{/admin/update/notice}" method="post">
+            <input type="hidden" name="no" th:value="${cvo.no}"/>
+            <table>
+                <tr>
+                    <td>유형</td>
+                    <td>
+                        <select name="cateType1" class="type" th:value="${cvo.cateType1}">
+                            <option th:selected="${cvo.cateType1}=='고객서비스'">고객서비스</option>
+                            <option th:selected="${cvo.cateType1}=='안전거래'">안전거래</option>
+                            <option th:selected="${cvo.cateType1}=='위해상품'">위해상품</option>
+                            <option th:selected="${cvo.cateType1}=='이벤트당첨'">이벤트당첨</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td>
+                        <input type="text" name="title" placeholder="제목을 입력합니다." th:value="${cvo.title}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td>
+                        <textarea name="content" placeholder="내용을 입력하세요." th:text="${cvo.content}"></textarea>
+                    </td>
+                </tr>
+            </table>
+
+            <a th:href="@{/admin/cs/list/notice}" class="btnList">취소</a>
+            <input type="submit" class="btnWrite" value="등록">
+        </form>
+    </section>
+</th:block>

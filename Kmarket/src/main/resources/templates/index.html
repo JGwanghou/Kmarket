@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/productLayout}">
+	<th:block layout:fragment="content">
+             <section>
+                <!-- 슬라이더 영역 -->
+                <section class="slider">
+                    <ul>
+                        <li>
+                        <a href="#"><img th:src="@{/img/slider_item1.jpg}" alt="item1"/></a>
+                        </li>
+                        <li>
+                        <a href="#"><img th:src="@{/img/slider_item2.jpg}" alt="item2"/></a>
+                        </li>
+                        <li>
+                        <a href="#"><img th:src="@{/img/slider_item3.jpg}" alt="item3"/></a>
+                        </li>
+                        <li>
+                        <a href="#"><img th:src="@{/img/slider_item4.jpg}" alt="item4"/></a>
+                        </li>
+                        <li>
+                        <a href="#"><img th:src="@{/img/slider_item5.jpg}" alt="item5"/></a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- 히트상품 영역 -->
+                <section class="hit">
+                    <h3>
+                        <span>히트상품</span>
+                    </h3>
+                    <article th:each="hit, i:${index.hit}">
+                        <a th:href="@{/product/view (prodNo=${hit.prodNo})}">
+                            <div class="thumb">
+                                <img th:src="@{/prodImg/__${hit.prodCate1}__/__${hit.prodCate2}__/__${hit.thumb1}__}" alt="t1">
+                            </div>
+                            <h2>[[${hit.prodName}]]</h2>
+                            <p>[[${hit.descript}]]</p>
+                            <div class="org_price" th:if="${hit.discount != 0}">
+                                <del>[[${#numbers.formatInteger(hit.price, 0, 'COMMA')}]]</del>
+                                <span>
+                                    [[${#numbers.formatInteger(hit.discount, 0, 'COMMA') + "%"}]]
+                                </span>
+                            </div>
+                            <div class="dis_price">
+                                <ins>
+                                    [[${#numbers.formatInteger(hit.sellPrice, 0, 'COMMA')}]]
+                                </ins>
+                                <span class="free" th:if="${hit.delivery == 0}">무료배송</span>
+                                <span th:if="${hit.delivery != 0}">배송비 [[${hit.delivery + "원"}]]</span>
+                            </div>
+                        </a>
+                    </article>
+                </section>
+                <!-- 추천상품 영역 -->
+                <section class="recommend">
+                    <h3>
+                        <span>추천상품</span>
+                    </h3>
+                    <article th:each="score:${index.score}">
+                        <a th:href="@{/product/view (prodNo=${score.prodNo})}">
+                            <div class="thumb">
+                                <img th:src="@{/prodImg/__${score.prodCate1}__/__${score.prodCate2}__/__${score.thumb1}__}" alt="t1">
+                            </div>
+                            <h2>[[${score.prodName}]]</h2>
+                            <p>[[${score.descript}]]</p>
+                            <div class="org_price" th:if="${score.discount != 0}">
+                                <del>[[${#numbers.formatInteger(score.price, 0, 'COMMA')}]]</del>
+                                <span>
+                                    [[${#numbers.formatInteger(score.discount, 0, 'COMMA') + "%"}]]
+                                </span>
+                            </div>
+                            <div class="dis_price">
+                                <ins>
+                                    [[${#numbers.formatInteger(score.sellPrice, 0, 'COMMA')}]]
+                                </ins>
+                                <span class="free" th:if="${score.delivery == 0}">무료배송</span>
+                                <span th:if="${score.delivery != 0}">배송비 [[${score.delivery + "원"}]]</span>
+                            </div>
+                        </a>
+                    </article>
+                </section>
+                <!-- 최신상품 영역 -->
+                <section class="new">
+                    <h3>
+                        <span>최신상품</span>
+                    </h3>
+                    <article th:each="newProd:${index.new}">
+                        <a th:href="@{/product/view (prodNo=${newProd.prodNo})}">
+                            <div class="thumb">
+                                <img th:src="@{/prodImg/__${newProd.prodCate1}__/__${newProd.prodCate2}__/__${newProd.thumb1}__}" alt="t1">
+                            </div>
+                            <h2>[[${newProd.prodName}]]</h2>
+                            <p>[[${newProd.descript}]]</p>
+                            <div class="org_price" th:if="${newProd.discount != 0}">
+                                <del>[[${#numbers.formatInteger(newProd.price, 0, 'COMMA')}]]</del>
+                                <span>
+                                    [[${#numbers.formatInteger(newProd.discount, 0, 'COMMA') + "%"}]]
+                                </span>
+                            </div>
+                            <div class="dis_price">
+                                <ins>
+                                    [[${#numbers.formatInteger(newProd.sellPrice, 0, 'COMMA')}]]
+                                </ins>
+                                <span class="free" th:if="${newProd.delivery == 0}">무료배송</span>
+                                <span th:if="${newProd.delivery != 0}">배송비 [[${newProd.delivery + "원"}]]</span>
+                            </div>
+                        </a>
+                    </article>
+                </section>
+                <!-- 할인상품 영역 -->
+                <section class="discount">
+                    <h3>
+                        <span>할인상품</span>
+                    </h3>
+                    <article th:each="discount:${index.discount}">
+                        <a th:href="@{/product/view (prodNo=${discount.prodNo})}">
+                            <div class="thumb">
+                                <img th:src="@{/prodImg/__${discount.prodCate1}__/__${discount.prodCate2}__/__${discount.thumb1}__}" alt="t1">
+                            </div>
+                            <h2>[[${discount.prodName}]]</h2>
+                            <p>[[${discount.descript}]]</p>
+                            <div class="org_price" th:if="${discount.discount != 0}">
+                                <del>[[${#numbers.formatInteger(discount.price, 0, 'COMMA')}]]</del>
+                                <span>
+                                    [[${#numbers.formatInteger(discount.discount, 0, 'COMMA') + "%"}]]
+                                </span>
+                            </div>
+                            <div class="dis_price">
+                                <ins>
+                                    [[${#numbers.formatInteger(discount.sellPrice, 0, 'COMMA')}]]
+                                </ins>
+                                <span class="free" th:if="${discount.delivery == 0}">무료배송</span>
+                                <span th:if="${discount.delivery != 0}">배송비 [[${discount.delivery + "원"}]]</span>
+                            </div>
+                        </a>
+                    </article>
+                </section>
+            </section>
+	</th:block>
+</body>
+</html>
