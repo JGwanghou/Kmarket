@@ -9,7 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
 @Table(name = "km_member")
 public class UserEntity {
     @Id
@@ -34,11 +33,6 @@ public class UserEntity {
     private String company;
     private String ceo;
     private String bizRegNum;
-    private String cornRegNum;
-    private String tel;
     private String manager;
     private String managerHp;
-    private String fax;
-
-
 }
