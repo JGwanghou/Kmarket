@@ -20,12 +20,12 @@ public class RegisterController {
 
     @PostMapping("register/{MemberType}")
     public String insertMember(@PathVariable("MemberType") String MemberType, MemberVO memberVO){
-
-        if("general".equals(MemberType)){
-            memberService.insertMember(memberVO);
-        }else if("seller".equals(MemberType)){
-            memberService.insertMemberSeller(memberVO);
-        }
+        memberService.insertMember(memberVO);
+//        if("general".equals(MemberType)){
+//
+//        }else if("seller".equals(MemberType)){
+//            memberService.insertMemberSeller(memberVO);
+//        }
         return "redirect:/member/login";
     }
 

@@ -18,6 +18,7 @@
                                 </th>
                                 <td>
                                     <input type="text" id="uid" name="uid" placeholder="아이디를 입력" required>
+                                    <input type="hidden" name="type" th:value="2">
                                     <span class="msgId">&nbsp;&nbsp;영문, 숫자로 4~12자까지 설정해 주세요.</span>
                                     <span class="uidResult"></span>
                                 </td>
@@ -78,36 +79,7 @@
                                     <span class="msgCorp">&nbsp;&nbsp; -표시 포함 12자리 입력, 예) 123-45-67890</span>
                                 </td>
                             </tr>
-                            <tr>
-                                <th>
-                                    <span class="essential">*</span>
-                                    통신판매업신고 번호
-                                </th>
-                                <td>
-                                    <input type="text" name="cornRegNum" placeholder="통신판매업신고 입력" required>
-                                    <span class="msgOnline">&nbsp;&nbsp; -표시 포함, 예) 강남-12345</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <span class="essential">*</span>
-                                    전화번호
-                                </th>
-                                <td>
-                                    <input type="text" name="tel" placeholder="전화번호 입력" required>
-                                    <span class="msgTel"> &nbsp;&nbsp;-표시 포함, 지역번호 포함, 예) 02-234-1234</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <span class="essential">*</span>
-                                    팩스번호
-                                </th>
-                                <td>
-                                    <input type="text" name="fax" placeholder="팩스번호 입력" required>
-                                    <span class="msgFax"> &nbsp;&nbsp;-표시 포함, 지역번호 포함, 예) 02-234-1234</span>
-                                </td>
-                            </tr>
+
                             <tr>
                                 <th>
                                     <span class="essential">*</span>
