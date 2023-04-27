@@ -37,7 +37,7 @@
  - 클라이언트 유효성 검사
  - ID 중복 체크
 
-#### 관리자 상품리스트
+#### 관리자 상품리스트 [상세보기 - WIKI](https://github.com/JGwanghou/Kmarket/wiki/%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(%EC%83%81%ED%92%88%EB%AA%A9%EB%A1%9D-%EA%B2%80%EC%83%89-%EC%A1%B0%ED%9A%8C-%EC%88%98%EC%A0%95-%EC%82%AD%EC%A0%9C))
  - 판매 상품 조회
  - 상품 검색
  - 페이징처리
