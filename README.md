@@ -1,5 +1,7 @@
 # SpringBoot-Kmarket
 스프링 부트 + 웹 쇼핑몰 사이트
+![image](https://user-images.githubusercontent.com/111489868/234802292-5d4d411d-9100-4c23-b2ad-b21c7d1c4339.png)
+
 
 ## 🖥️  프로젝트 소개 
 자유롭게 물건을 사고 팔며 판매자와 사용자에 친화적인 쇼핑몰 개발에 방점을 두고 제작한 웹 쇼핑몰 프로젝트입니다.
