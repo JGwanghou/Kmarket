@@ -60,6 +60,7 @@
 				AND 1=1
 			</if>
 		</where>
+
 		<include refid="searchTypeANDKeyword"/>
 	</select>
 

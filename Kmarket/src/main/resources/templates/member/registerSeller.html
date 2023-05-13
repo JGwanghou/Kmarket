@@ -7,7 +7,7 @@
                 <nav>
                     <h1>판매자 회원가입</h1>
                 </nav>
-                <form th:action="@{/register/seller}" method="post">
+                <form th:action="@{/register/member}" method="post">
                     <section>
                         <table>
                             <caption>필수 정보입력</caption>
@@ -29,7 +29,7 @@
                                     비밀번호
                                 </th>
                                 <td>
-                                    <input type="password" name="pass1" placeholder="비밀번호를 입력" required>
+                                    <input type="password" name="pass" placeholder="비밀번호를 입력" required>
                                     <span class="msgPass1">&nbsp;&nbsp;영문, 숫자, 특수문자를 조합하여 8~12자까지 설정해 주세요.</span>
                                     <span class="passResult1"></span>
                                 </td>

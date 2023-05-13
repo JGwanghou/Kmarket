@@ -19,7 +19,6 @@ public class SecurityConfigration {
 	
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
 		/**
 		 * 인가(접근권한) 설정
 		 *
@@ -30,8 +29,8 @@ public class SecurityConfigration {
 		 * antMatchers("/test/**") O
 		 * mvcMatchers("/test") O
 		 * */
-		// 인가(접근권한) 설정
 
+		// 인가(접근권한) 설정
 		http.authorizeHttpRequests().antMatchers("/").permitAll(); // 모든 자원에 대해서 모든 사용자 접근 허용
 		http.authorizeHttpRequests().antMatchers("/admin/**").hasAnyRole("7", "5"); // admin 하위 모든 링크에 대해서 admin(level : 7)에게만 허용
 		http.authorizeHttpRequests().antMatchers("/product/cart", "/product/complete", "/product/order", "/my/**").authenticated();
@@ -39,15 +38,15 @@ public class SecurityConfigration {
 
 		// 사이트 위변조 요청 방지
 		http.csrf().disable();
-
 		http.rememberMe().rememberMeParameter("auto").tokenValiditySeconds(3600);
 
 		// 로그인 설정
 		http.formLogin()
-		.loginPage("/member/login") // 인증이 필요한 URL 접근 시 로그인 으로 이동
-		.defaultSuccessUrl("/")		// 로그인 성공 시 이동 할 페이지
-		.failureUrl("/member/login?success=try") // 로그인 실패 시 로그인 으로 이동
-		.usernameParameter("uid")
+		.loginPage("/member/login") // 인증이 필요한 URL 접근 시 로그인으로 이동시킴
+		.defaultSuccessUrl("/")		// 로그인 성공 시
+		.failureUrl("/member/login?success=try") // 로그인 실패 시
+
+		.usernameParameter("uid") //
 		.passwordParameter("pass");
 		
 		// 로그아웃 설정
@@ -58,7 +57,6 @@ public class SecurityConfigration {
 
 		// 사용자 인증 처리 컴포넌트 서비스 등록
 		http.userDetailsService(service);
-
 
 		return http.build();
 	}

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+    회원가입 폼 데이터 컨트롤러
+ */
+
 @Slf4j
 @Controller
 public class RegisterController {
@@ -17,15 +21,11 @@ public class RegisterController {
     @Autowired
     private MemberService memberService;
 
+    // 개인회원/판매회원 메서드 통합
+    @PostMapping("register/member")
+    public String insertMember(MemberVO memberVO){
+        memberService.insertMember(memberVO); // Service에서 로직 처리
 
-    @PostMapping("register/{MemberType}")
-    public String insertMember(@PathVariable("MemberType") String MemberType, MemberVO memberVO){
-        memberService.insertMember(memberVO);
-//        if("general".equals(MemberType)){
-//
-//        }else if("seller".equals(MemberType)){
-//            memberService.insertMemberSeller(memberVO);
-//        }
         return "redirect:/member/login";
     }
 

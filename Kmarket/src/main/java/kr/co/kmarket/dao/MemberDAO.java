@@ -15,5 +15,4 @@ public interface MemberDAO {
 
     public TermsVO selectTerms();
 
-    public Integer selectCheckUid(String uid);
 }

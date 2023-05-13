@@ -13,6 +13,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * UserDetails : 사용자의 정보를 담는 인터페이스
+ */
+
 @Getter
 @Setter
 @Builder
@@ -24,10 +28,8 @@ public class MyUserDetails implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
 		// 계정이 갖는 권한 목록
 		List<GrantedAuthority> authorities = new ArrayList<>();
-
 		authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getLevel()));
 
 		return authorities;

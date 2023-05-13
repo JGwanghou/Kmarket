@@ -75,8 +75,8 @@
         /* ------- 중복 체크 ------ */
 
         // 비밀번호 검사하기
-        $('input[name=pass1]').focusout(function(){
-            let pass1 = $('input[name=pass1]').val();
+        $('input[name=pass]').focusout(function(){
+            let pass1 = $('input[name=pass]').val();
 
             if(pass1.match(rePass)){
                 $('.msgPass1').hide();
@@ -90,7 +90,7 @@
 
         $('input[name=pass2]').focusout(function(){
 
-            let pass1 = $('input[name=pass1]').val();
+            let pass1 = $('input[name=pass]').val();
             let pass2 = $('input[name=pass2]').val();
             if(pass1 == pass2){
                 isPassOk = true;
