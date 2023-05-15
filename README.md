@@ -33,7 +33,7 @@
  - 자동로그인
 
 #### 회원가입 [ 상세보기 - WIKI ](https://github.com/JGwanghou/Kmarket/wiki/%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85))
- - 다음 주소 API 사용
+ - 카카오 주소 API 사용
  - 클라이언트 유효성 검사
  - ID 중복 체크
 
