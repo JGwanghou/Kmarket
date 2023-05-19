@@ -24,6 +24,8 @@
  - **Framework** : Spring Boot(2.7.8)
  - **DataBase** : Maria DB 5.5.68
  - **ORM** : Mybatis
+ - **형상관리** : Git
+ - **커뮤니케이션** : Slack
 
 ## 📌 담당 기능
 
