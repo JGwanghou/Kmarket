@@ -21,7 +21,7 @@
  - 팀원2 이왕근 : - 고객센터(Qna, Faq, Notice) 기능 담당
 
 ### ⚙️ 개발 환경
- - `Java 11` `javascript`, `thymeleaf`
+ - `Java 11` `javascript`, `thymeleaf`, `SpringBoot`
  - **IDE** : IntelliJ IDEA Community Edition 2022.3.1
  - **Framework** : Spring Boot(2.7.8)
  - **DataBase** : Maria DB 5.5.68
